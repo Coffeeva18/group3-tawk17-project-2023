@@ -1,4 +1,4 @@
-<?php // http://localhost/Lab1-Todolist
+<?php // http://localhost/group3-tawk17-project-2023
 $page_title = "Lab 1: To Do List";
 
 // Create connection
