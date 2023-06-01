@@ -10,6 +10,25 @@
   background: #f1f1f1;
 }
 
+form {
+  width: 600px;
+  align-items: center;
+  align-content: center;
+  display: block;
+  margin: auto;
+}
+
+body {
+    background-image: url("pinkbg.jpg");
+    background-color: #cccccc;
+    background-size: 100%;
+}
+
+header {
+  text-align: center;
+  margin-top: 120px;
+}
+
 input[type=text]:focus, input[type=password]:focus {
   background-color: #ddd;
   outline: none;
@@ -65,4 +84,8 @@ button:hover {
   .cancelbtn, .signupbtn {
     width: 100%;
   }
+}
+
+.psw {
+  width: 40px;
 }
