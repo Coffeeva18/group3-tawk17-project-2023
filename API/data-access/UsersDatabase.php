@@ -25,7 +25,15 @@ class UsersDatabase extends Database
         return $user;
     }
 
+    // Get one user by using the username
+    public function getUserByUsername($username)
+    {
+        $result = $this->getOneRowByIdFromTable($this->table_name, "username", $username);
 
+        $user = $result->fetch_object();
+
+        return $user;
+    }
 
     // Create one by creating a query and using the inherited $this->conn 
     public function insert(UserModel $user)

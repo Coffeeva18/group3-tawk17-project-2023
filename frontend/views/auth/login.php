@@ -34,10 +34,10 @@ $page_title = "BlaBlaJU";
     </label>
   </div>
 
-  <div class="container" style="background-color:#f1f1f1">
-    <button type="button" class="cancelbtn">Cancel</button>
-    <span class="psw">Forgot <a href="#">password?</a></span>
-  </div>
+  <div class="clearfix">
+      <button class=red type="button" class="cancelbtn">Cancel</button>
+      <button class=black type="button" class="signupbtn">Forgot password?</button>
+    </div>
 </form>
 
 </body>

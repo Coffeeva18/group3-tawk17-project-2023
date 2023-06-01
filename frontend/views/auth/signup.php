@@ -10,7 +10,7 @@ $page_title = "BlaBlaJU";
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="../../style.css">
     <title><?= $page_title ?></title>
 </head>
 
@@ -19,7 +19,7 @@ $page_title = "BlaBlaJU";
         <h1><?= $page_title ?></h1>
     </header>
 
-<form action="action_page.php" style="border:1px solid #ccc">
+    <form name="signUp" action=<?= $this->home ?>/auth/signup method="post" style="border:1px solid #ccc">
   <div class="container">
     <h1>Sign Up</h1>
     <p>Please fill in this form to create an account.</p>
@@ -42,7 +42,7 @@ $page_title = "BlaBlaJU";
 
     <div class="clearfix">
       <button type="button" class="cancelbtn">Cancel</button>
-      <button type="submit" class="signupbtn">Sign Up</button>
+      <button type="submit" class="signupbtn" value="submit">Sign Up</button>
     </div>
   </div>
 </form>

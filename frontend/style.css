@@ -8,6 +8,7 @@
   display: inline-block;
   border: none;
   background: #f1f1f1;
+  border-radius: 6px;
 }
 
 form {
@@ -19,9 +20,10 @@ form {
 }
 
 body {
-    background-image: url("pinkbg.jpg");
-    background-color: #cccccc;
-    background-size: 100%;
+  font-family: 'Roboto', sans-serif;
+  background-image: url("pinkbg.jpg");
+  background-color: #cccccc;
+  background-size: 100%;
 }
 
 header {
@@ -58,7 +60,8 @@ button:hover {
 /* Extra styles for the cancel button */
 .cancelbtn {
   padding: 14px 20px;
-  background-color: #f44336;
+  text-decoration-color: #f44336;
+  opacity: 0%;
 }
 
 /* Float cancel and signup buttons and add an equal width */
@@ -88,4 +91,9 @@ button:hover {
 
 .psw {
   width: 40px;
+}
+
+button .red {
+  border-style: none;
+  
 }
