@@ -1,54 +1,39 @@
-<?php // http://localhost/Lab1-Todolist
-$page_title = "Lab 1: To Do List";
+<?php
 
-// Create connection
-require_once __DIR__ . "/database.php";
+// Define global constant to prevent direct script loading 
+define('MY_APP', true);
 
-$sql = "SELECT * FROM tasks";
-$result = $conn->query($sql);
 
-$conn->close();
-?>
+// Load the routers responsible for handling API requests
+require_once __DIR__ . "/config.php";
+require_once __DIR__ . "/API/api/APIRouter.php";
+require_once __DIR__ . "/frontend/FrontendRouter.php";
 
-<!DOCTYPE html>
-<html lang="en">
+// Get URL path
+// http://localhost/multitier-shop/[api/purchases/5]
+// http://localhost/multitier-shop/[home/purchases] [PATH]
+$path = $_GET["path"]; 
 
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
-    <title><?= $page_title ?></title>
-</head>
+$path_parts = explode("/", $path);
+$base_path = strtolower($path_parts[0]);
+$query_params = $_GET;
 
-<body>
-    <header>
-        <h1><?= $page_title ?></h1>
-        <nav>
-            <button class="nav nav1"><a href="/Lab1-Todolist/new-task.php"> Create Task </a></button>
-        </nav>
-    </header>
-    <main>
-        <table class="table">
-            <tr>
-                <th> Title </th>
-                <th> Description </th>
-                <th> Status</th>
-            </tr>
+// If the URL path starts with "api", load the API
+if($base_path == "api"){
 
-            <?php
-            // output data of each row
-            while ($row = $result->fetch_assoc()) {
-                echo "<tr>
-                    <td>{$row["title"]}</td>
-                    <td>{$row["description"]}</td>
-                    <td>{$row["status"]}</td>
-                    <td><a href='edit-task.php?id={$row["id"]}' type='button'>Edit</a></td>
-                </tr>";
-            } ?>
-        </table>
-    </main>
+    // Handle requests using the API router
+    $api = new APIRouter($path_parts, $query_params);
+    $api->handleRequest();
 
-</body>
+}
+// If the URL path starts with "frontend", load the frontend
+else if($base_path == "frontend") {
+    // Handle requests using the frontend router
+    $frontend = new FrontendRouter($path_parts, $query_params);
+    $frontend->handleRequest();
 
-</html>
+}
+else{ // If URL path is not API, redirect to home
+    header('Location: home');
+    die();
+}
