@@ -37,7 +37,7 @@ class UsersService {
         }
 
         //Here we are checking if the password are the same
-        $password_matches = password_verify($password, $user->password_hash);
+        $password_matches = password_verify($password, $user->password);
         if ($password_matches == false) {
             return false;
         }
@@ -69,9 +69,10 @@ class UsersService {
 
         // Hash the password securely
         $password_hash = password_hash($password, PASSWORD_DEFAULT);
-
+        
         // Set the password hash in the user object
         $user->password = $password_hash;
+        var_dump($user, $password);
 
         // Insert the user into the database
         $success = $users_database->insert($user);

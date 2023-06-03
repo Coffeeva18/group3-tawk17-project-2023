@@ -1,23 +1,10 @@
 <?php // http://localhost/group3-tawk17-project-2023
 $page_title = "BlaBlaJU";
 
+require_once __DIR__ . "/../../Template.php";
+
+Template::header("Register user", $this->model["error"]);
 ?>
-
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../../style.css">
-    <title><?= $page_title ?></title>
-</head>
-
-<body>
-    <header>
-        <h1><?= $page_title ?></h1>
-    </header>
 
     <form name="signUp" action=<?= $this->home ?>/auth/signup method="post" style="border:1px solid #ccc">
   <div class="container">
@@ -26,13 +13,16 @@ $page_title = "BlaBlaJU";
     <hr>
 
     <label for="email"><b>Email</b></label>
-    <input type="text" placeholder="Enter Email" name="email" required>
+    <input type="text" placeholder="Enter Email" name="email" id="email" required>
+
+    <label for="username"><b>Username</b></label>
+    <input type="text" placeholder="Enter Username" name="username" id="username" required>
 
     <label for="psw"><b>Password</b></label>
-    <input type="password" placeholder="Enter Password" name="psw" required>
+    <input type="password" placeholder="Enter Password" name="password"  id="psw" required>
 
     <label for="psw-repeat"><b>Repeat Password</b></label>
-    <input type="password" placeholder="Repeat Password" name="psw-repeat" required>
+    <input type="password" placeholder="Repeat Password" name="confirm_password" id="psw-repeat" required>
 
     <label>
       <input type="checkbox" checked="checked" name="remember" style="margin-bottom:15px"> Remember me
@@ -48,5 +38,4 @@ $page_title = "BlaBlaJU";
 </form>
 
 </body>
-
-</html>
+<?php Template::footer(); ?>

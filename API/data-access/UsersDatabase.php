@@ -45,6 +45,7 @@ class UsersDatabase extends Database
         $stmt->bind_param("sssi", $user->username, $user->email, $user->password, $user->admin );
 
         $success = $stmt->execute();
+        var_dump($success);
 
         return $success;
     }

@@ -118,8 +118,10 @@ class AuthController extends ControllerBase
         $user = new UserModel();
 
         $user->username = $this->body["username"];
+        $user->email = $this->body["email"];
         $password = $this->body["password"];
         $confirm_password = $this->body["confirm_password"];
+        $user->admin = false;
 
         if ($password !== $confirm_password) {
             $this->model["error"] == "Passwords don't match";
@@ -127,13 +129,14 @@ class AuthController extends ControllerBase
         }
 
         $existing_user = UsersService::getUserByUsername($user->username);
-
+        
         if ($existing_user) {
             $this->model["error"] == "Username already in use";
             $this->viewPage("auth/signup");
         }
-
+        
         $success = UsersService::registerUser($user, $password);
+        var_dump($success);
 
         if ($success) {
             $this->redirect($this->home . "/auth/login");

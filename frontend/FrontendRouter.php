@@ -12,7 +12,7 @@ require_once __DIR__ . "/functions.php";
 require_once __DIR__ . "/controllers/AuthController.php";
 // require_once __DIR__ . "/controllers/PurchaseController.php";
 // require_once __DIR__ . "/controllers/HomeController.php";
-// require_once __DIR__ . "/controllers/AssetsController.php";
+require_once __DIR__ . "/controllers/AssetsController.php";
 // require_once __DIR__ . "/controllers/ArticleController.php";
 // require_once __DIR__ . "/controllers/BibleController.php";
 
@@ -32,7 +32,7 @@ class FrontendRouter
         $this->routes = [
             // Whenever someone calls "home/Purchases" we 
             // will load the PurchasePages class
-            "home" => "HomeController",
+            "frontend" => "HomeController",
             "auth" => "AuthController",
             "purchases" => "PurchaseController",
             "assets" => "AssetsController",
@@ -52,7 +52,7 @@ class FrontendRouter
         // Load home page if no resource is specified
         // (the "resource" is the second part of the URL path)
         // ( {BASE_URL}/home/{RESOURCE} )
-        $resource = "home";
+        $resource = "frontend";
         $route_class = $this->routes[$resource];
         $request_info = [];
 

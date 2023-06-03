@@ -77,7 +77,7 @@ class UsersAPI extends RestAPI
         $user->password = $this->body["password"];
         $user->admin = false;
 
-        $success = UsersService::saveUser($user);
+        $success = UsersService::registerUser($user, $user->password);
 
         if($success){
             $this->created();
