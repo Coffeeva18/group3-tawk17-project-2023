@@ -5,27 +5,36 @@ class Template
     public static function header($title, $error = false)
     {
         $home_path = getHomePath();
+        $user = getUser();
 ?>
         <!DOCTYPE html>
         <html lang="en">
 
         <head>
             <meta charset="UTF-8">
+            <meta http-equiv="X-UA-Compatible" content="IE=edge">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title><?= $title ?> - Multitier Shop</title>
+            <title><?= $title ?> - Blablaju </title>
 
             <link rel="stylesheet" href="<?= $home_path ?>/assets/css/style.css">
 
-           
+            <script src="<?= $home_path ?>/assets/js/script.js"></script>
         </head>
 
         <body>
-            <header>
-                <h1>PROUT</h1>
-            </header>
+            <nav class="nav-background">
+                <a href="<?= $home_path ?>">Start</a>
+                <a href="<?= $home_path ?>/posts">Posts</a>
 
-            <nav>
+                <?php if ($user) : ?>
+                    <a href="<?= $home_path ?>/auth/profile">Profile</a>
+                <?php else : ?>
+                    <a href="<?= $home_path ?>/auth/login">Log in</a>
+                <?php endif; ?>
             </nav>
+
+            <h1><?= $title; ?></h1>
+
 
             <main>
 
@@ -44,7 +53,7 @@ class Template
             ?>
             </main>
             <footer>
-                Copyright 2023
+                Copyright 2025
             </footer>
         </body>
 

@@ -21,7 +21,6 @@ form {
 
 body {
   font-family: 'Roboto', sans-serif;
-  background-image: url("pinkbg.jpg");
   background-color: #cccccc;
   background-size: 100%;
 }
@@ -96,4 +95,13 @@ button:hover {
 button .red {
   border-style: none;
   
+}
+
+.nav-background {
+  background-image: url("pinkbg.jpg");
+  background-size: cover;
+  height: 100px;
+
+  /* Workaround for some mobile browsers */
+  min-height: 100%;
 }

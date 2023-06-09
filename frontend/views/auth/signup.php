@@ -37,5 +37,4 @@ Template::header("Register user", $this->model["error"]);
   </div>
 </form>
 
-</body>
 <?php Template::footer(); ?>

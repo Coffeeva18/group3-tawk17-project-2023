@@ -75,7 +75,7 @@ class ControllerBase
             return false;
         }
 
-        $this->user = UsersService::getUserById($_SESSION["user"]->user_id);
+        $this->user = UsersService::getUserById($_SESSION["user"]->id);
     }
 
     protected function requireAuth($authorized_roles = []){
@@ -84,7 +84,7 @@ class ControllerBase
             $this->unauthorized();
         }
 
-        if(count($authorized_roles) > 0 && in_array($this->user->user_role, $authorized_roles) === false){
+        if(count($authorized_roles) > 0 && in_array($this->user->role, $authorized_roles) === false){
             $this->forbidden();
         }
     }

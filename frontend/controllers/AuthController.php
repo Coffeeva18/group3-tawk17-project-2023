@@ -5,7 +5,6 @@ if (!defined('MY_APP') && basename($_SERVER['PHP_SELF']) == basename(__FILE__)) 
     die('This file cannot be accessed directly.');
 }
 
-var_dump($_POST);
 
 require_once __DIR__ . "/../ControllerBase.php";
 require_once __DIR__ . "/../../API/business-logic/UsersService.php";
@@ -121,11 +120,11 @@ class AuthController extends ControllerBase
         $user->email = $this->body["email"];
         $password = $this->body["password"];
         $confirm_password = $this->body["confirm_password"];
-        $user->admin = false;
+        $user->role = "user";
 
         if ($password !== $confirm_password) {
             $this->model["error"] == "Passwords don't match";
-            $this->viewPage("auth/register");
+            $this->viewPage("auth/signup");
         }
 
         $existing_user = UsersService::getUserByUsername($user->username);
@@ -139,7 +138,7 @@ class AuthController extends ControllerBase
         var_dump($success);
 
         if ($success) {
-            $this->redirect($this->home . "/auth/login");
+            $this->redirect($this->home . "/auth/profile");
         } else {
             $this->model["error"] == "Error registering user";
             $this->viewPage("auth/signup");

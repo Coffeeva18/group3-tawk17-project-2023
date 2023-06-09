@@ -40,14 +40,36 @@ class PostsDatabase extends Database
         return $posts;
     }
 
+        // Get all posts by using the inherited function getAllRowsFromTable
+        public function getAllPostsByUserId($user_id)
+        {
+            $query = "SELECT * FROM posts WHERE user_id=?;";
+
+            $stmt = $this->conn->prepare($query);
+            
+            $stmt->bind_param("i", $user_id);
+
+            $stmt->execute();
+
+            $result = $stmt->get_result();
+
+            $posts = [];
+    
+            while ($post = $result->fetch_object()) {
+                $posts[] = $post;
+            }
+    
+            return $posts;
+        }
+
     // Create one by creating a query and using the inherited $this->conn 
     public function insert(PostModel $post)
     {
-        $query = "INSERT INTO posts (title, content, likes, user_id) VALUES (?, ?, ?, ?)";
+        $query = "INSERT INTO posts (title, content, likes, user_id, location) VALUES (?, ?, ?, ?, ?)";
 
         $stmt = $this->conn->prepare($query);
 
-        $stmt->bind_param("ssii", $post->title, $post->content, $post->likes, $post->user_id );
+        $stmt->bind_param("ssiis", $post->title, $post->content, $post->likes, $post->user_id, $post->location);
 
         $success = $stmt->execute();
 
@@ -57,11 +79,11 @@ class PostsDatabase extends Database
     // Update one by creating a query and using the inherited $this->conn 
     public function updateById($post_id, PostModel $post)
     {
-        $query = "UPDATE posts SET title=?, content=?, likes=?, user_id=? WHERE id=?;";
+        $query = "UPDATE posts SET title=?, content=?, likes=?, user_id=?, location=? WHERE id=?;";
 
         $stmt = $this->conn->prepare($query);
 
-        $stmt->bind_param("ssii", $post->title, $post->content, $post->likes, $post->user_id);
+        $stmt->bind_param("ssiis", $post->title, $post->content, $post->likes, $post->user_id, $post->location);
 
         $success = $stmt->execute();
 

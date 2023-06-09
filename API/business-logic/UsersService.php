@@ -16,12 +16,6 @@ class UsersService {
 
         $user = $users_database->getOne($id);
 
-        // If you need to remove or hide data that shouldn't
-        // be shown in the API response you can do that here
-        // An example of data to hide is users password hash 
-        // or other secret/sensitive data that shouldn't be 
-        // exposed to users calling the API
-
         return $user;
     }
 
@@ -49,7 +43,9 @@ class UsersService {
     {
         $users_database = new UsersDatabase();
 
+        var_dump($username);
         $user = $users_database->getUserByUsername($username);
+        var_dump($user);
 
         return $user;
     }
@@ -108,6 +104,81 @@ class UsersService {
         $success = $users_database->deleteById($user_id);
 
         return $success;
+    }
+
+    public static function generateJsonWebToken(UserModel $user)
+    {
+        // Set the JWT header and payload with the user ID and username
+        $header = json_encode([
+            "alg" => "HS256",
+            "typ" => "JWT"
+        ]);
+
+        $payload = json_encode([
+            "user_id" => $user->id,
+            "username" => $user->username,
+            "role" => $user->role,
+            "iss" => APPLICATION_NAME,
+            "aud" => APPLICATION_NAME,
+            "exp" => time() + 3600, // set to expire in 1 hour
+            "iat" => time(),
+            "nbf" => time()
+        ]);
+
+        // Encode Header to Base64Url String
+        $encoded_header = str_replace(['+', '/', '='], ['-', '_', ''], base64_encode($header));
+
+        // Encode Payload to Base64Url String
+        $encoded_payload = str_replace(['+', '/', '='], ['-', '_', ''], base64_encode($payload));
+
+        // Create the JWT signature using the HMAC-SHA256 algorithm and a secret key
+        $signature = hash_hmac("sha256", "$encoded_header.$encoded_payload", JWT_SECRET, true);
+
+        // Encode Signature to Base64Url String
+        $encoded_signature = str_replace(['+', '/', '='], ['-', '_', ''], base64_encode($signature));
+
+        // Combine the encoded header, payload, and signature into a JWT token string
+        $token = "$encoded_header.$encoded_payload.$encoded_signature";
+
+        // Return the token
+        return $token;
+    }
+
+
+    public static function validateToken($token)
+    {
+        // Split the token into header, payload, and signature strings
+        list($encoded_header, $encoded_payload, $encoded_signature) = explode(".", $token);
+
+        // Decode the header and payload from base64 strings to JSON objects
+        $header = json_decode(base64_decode($encoded_header));
+        $payload = json_decode(base64_decode($encoded_payload));
+
+
+        // Verify that the JWT header specifies the expected algorithm and token type
+        if ($header->alg !== "HS256" || $header->typ !== "JWT") {
+            return false;
+        }
+
+        // Calculate the expected signature using the HMAC-SHA256 algorithm and the secret key
+        $expected_signature = base64_encode(hash_hmac("sha256", "$encoded_header.$encoded_payload", JWT_SECRET, true));
+        
+        // Encode Signature to Base64Url String
+        $expected_signature = str_replace(['+', '/', '='], ['-', '_', ''], $expected_signature);
+
+        // Verify that the actual signature matches the expected signature
+        if ($encoded_signature !== $expected_signature) {
+            return false;
+        }
+
+        // Verify that the token has not expired
+        $expiration_time = $payload->exp;
+        if (time() > $expiration_time) {
+            return false;
+        }
+
+        // If all checks pass, return payload to indicate that the token is valid
+        return $payload;
     }
 }
 

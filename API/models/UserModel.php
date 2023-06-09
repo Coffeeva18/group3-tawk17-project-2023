@@ -8,8 +8,9 @@ if (!defined('MY_APP') && basename($_SERVER['PHP_SELF']) == basename(__FILE__)) 
 // Model class for user-table in database
 
 class UserModel{
+    public $id;
     public $username; 
     public $email; 
     public $password;
-    public $admin;
+    public $role;
 }

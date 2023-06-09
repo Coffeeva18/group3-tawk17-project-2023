@@ -12,4 +12,5 @@ class PostModel{
     public $content; 
     public $likes;
     public $user_id;
+    public $location;
 }
