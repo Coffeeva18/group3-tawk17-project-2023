@@ -25,6 +25,7 @@ class Template
             <nav class="nav-bg">
                 <a href="<?= $home_path ?>/main">Start</a>
                 <a href="<?= $home_path ?>/posts">Posts</a>
+                <a href="<?= $home_path ?>/posts">About Us</a>
 
                 <?php if ($user) : ?>
                     <a href="<?= $home_path ?>/auth/profile">Profile</a>
