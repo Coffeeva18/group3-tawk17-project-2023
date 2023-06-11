@@ -43,9 +43,7 @@ class UsersService {
     {
         $users_database = new UsersDatabase();
 
-        var_dump($username);
         $user = $users_database->getUserByUsername($username);
-        var_dump($user);
 
         return $user;
     }
@@ -68,7 +66,6 @@ class UsersService {
         
         // Set the password hash in the user object
         $user->password = $password_hash;
-        var_dump($user, $password);
 
         // Insert the user into the database
         $success = $users_database->insert($user);

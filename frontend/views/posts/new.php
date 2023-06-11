@@ -4,8 +4,6 @@ require_once __DIR__ . "/../../Template.php";
 Template::header("New Post");
 ?>
 
-<h1>New Purchase</h1>
-
 <form action="<?= $this->home ?>/posts" method="post">
     <input type="text" name="title" placeholder="Post title"> <br>
     <input type="text" name="content" placeholder="Content"> <br>

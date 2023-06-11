@@ -53,7 +53,6 @@ class UsersDatabase extends Database
         $stmt->bind_param("ssss", $user->username, $user->email, $user->password, $user->role);
 
         $success = $stmt->execute();
-        var_dump($success);
 
         return $success;
     }
@@ -75,8 +74,9 @@ class UsersDatabase extends Database
     // Delete one user by using the inherited function deleteOneRowByIdFromTable
     public function deleteById($user_id)
     {
-        $success = $this->deleteOneRowByIdFromTable($this->table_name, $this->id_name, $user_id);
+        $success = $this->deleteOneRowByIdFromTable($this->table_name, "id", $user_id);
 
         return $success;
     }
+    
 }

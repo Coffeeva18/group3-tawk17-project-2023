@@ -23,12 +23,16 @@ class Template
 
         <body>
             <nav class="nav-bg">
-                <a href="<?= $home_path ?>/main">Start</a>
+                <a href="<?= $home_path ?>/">Start</a>
                 <a href="<?= $home_path ?>/posts">Posts</a>
                 <a href="<?= $home_path ?>/posts">About Us</a>
-
+                
+                
                 <?php if ($user) : ?>
                     <a href="<?= $home_path ?>/auth/profile">Profile</a>
+                    <form name="signUp" action=<?= $home_path ?>/auth/logout method="post">
+                        <button type="submit" class="signupbtn" value="submit">Disconnect</button>
+                    </form>
                 <?php else : ?>
                     <a href="<?= $home_path ?>/auth/login">Log in</a>
                 <?php endif; ?>

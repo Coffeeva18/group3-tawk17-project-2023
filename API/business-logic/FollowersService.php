@@ -25,6 +25,25 @@ class FollowersService{
         return $follower;
     }
 
+    // Get one follower by creating a database object 
+    // from data-access layer and calling its getOne function.
+    public static function getFollowingById($id){
+        $followers_database = new FollowersDatabase();
+
+        $following = $followers_database->getAllFollowingById($id);
+
+        return $following;
+    }
+
+     // Get one follower by creating a database object 
+    // from data-access layer and calling its getOne function.
+    public static function getFollowersById($id){
+        $followers_database = new FollowersDatabase();
+
+        $followers = $followers_database->getAllFollowersById($id);
+
+        return $followers;
+    }
 
     // Save a follower to the database by creating a database object 
     // from data-access layer and calling its insert function.

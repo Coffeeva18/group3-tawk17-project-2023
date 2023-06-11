@@ -15,25 +15,25 @@ class CommentsDatabase extends Database
     private $table_name = "Comments";
     private $id_name = "comment_id";
 
-    // Get one comment by using the inherited function getOneRowByIdFromTable
-    public function getOne($comment_id)
-    {
-        $result = $this->getOneRowByIdFromTable($this->table_name, $this->id_name, $comment_id);
-
-        $comment = $result->fetch_object();
-
-        return $comment;
-    }
-
-
     // Get all comments by using the inherited function getAllRowsFromTable
-    public function getAll()
+    public function getAllComments($post_id)
     {
-        $result = $this->getAllRowsFromTable($this->table_name);
+        $user = new UsersDatabase();
+
+        $query = "SELECT * FROM comments WHERE post_id=?;";
+
+        $stmt = $this->conn->prepare($query);
+
+        $stmt->bind_param("i", $post_id);
+
+        $stmt->execute();
+
+        $result = $stmt->get_result();
 
         $comments = [];
 
         while ($comment = $result->fetch_object()) {
+            $comment->user = $user->getOne($comment->user_id);
             $comments[] = $comment;
         }
 
@@ -58,7 +58,7 @@ class CommentsDatabase extends Database
     // Delete one comment by using the inherited function deleteOneRowByIdFromTable
     public function deleteById($comment_id)
     {
-        $success = $this->deleteOneRowByIdFromTable($this->table_name, $this->id_name, $comment_id);
+        $success = $this->deleteOneRowByIdFromTable($this->table_name, "id", $comment_id);
 
         return $success;
     }

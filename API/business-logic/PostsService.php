@@ -41,6 +41,28 @@ class PostsService{
         return $posts;
     }
 
+    public static function getPopularPosts($user_id){
+        $posts_database = new PostsDatabase();
+
+        $posts = $posts_database->getAllPostsSortedByLikes($user_id);
+
+        return $posts;
+    }
+
+    public static function getFollowingPosts($user_id){
+        $posts_database = new PostsDatabase();
+
+        $posts = $posts_database->getAllPostsOfFollowing($user_id);
+
+        // If you need to remove or hide data that shouldn't
+        // be shown in the API response you can do that here
+        // An example of data to hide is users password hash 
+        // or other secret/sensitive data that shouldn't be 
+        // exposed to users calling the API
+
+        return $posts;
+    }
+
      // Get all posts by creating a database object 
     // from data-access layer and calling its getAll function.
     public static function getPostsByUser($user_id){
@@ -101,5 +123,19 @@ class PostsService{
 
         return $success;
     }
-}
 
+     // Delete the post from the database by creating a database object 
+    // from data-access layer and calling its delete function.
+    public static function deletePostByUserId($post_id){
+        $posts_database = new PostsDatabase();
+
+        // If you need to validate data or control what 
+        // gets deleted from the database you can do that here.
+        // This makes sure all input from any presentation
+        // layer will be validated and handled the same way.
+
+        $success = $posts_database->deleteByUserId($post_id);
+
+        return $success;
+    }
+}

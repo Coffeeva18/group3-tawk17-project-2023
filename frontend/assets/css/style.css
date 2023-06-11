@@ -46,15 +46,17 @@ hr {
 }
 
 /* Set a style for all buttons */
-button .signupbtn .signupbtn {
-  background-color: #04AA6D;
-  color: white;
+button.signupbtn {
+  background-color: #f1f1f1;
+  color: #EC7DC4;
   padding: 14px 20px;
-  margin: 8px 0;
+  margin: 8px auto;
   border: none;
   cursor: pointer;
-  width: 100%;
+  width: 40%;
   opacity: 0.9;
+  border-radius: 12px;
+  border-color: #9e5483;
 }
 
 button:hover {
@@ -77,6 +79,8 @@ button:hover {
 /* Add padding to container elements */
 .container {
   padding: 16px;
+  background-color: #EC7DC4;
+  border-radius: 10px;
 }
 
 /* Clear floats */
@@ -84,6 +88,10 @@ button:hover {
   content: "";
   clear: both;
   display: table;
+}
+
+.clearfix {
+  align-items: center;
 }
 
 /* Change styles for cancel button and signup button on extra small screens */
@@ -149,6 +157,10 @@ button .red {
   color: #EC7DC4;
   border: 2px solid #EC7DC4;
   border-radius: 5px;
+}
+
+.head-card {
+  margin: 0px
 }
 
 .head-card {
@@ -254,4 +266,8 @@ h1.home-h {
 .more a {
   text-decoration: none;
   color: #EC7DC4;
+}
+
+.de-user {
+  color: red;
 }
