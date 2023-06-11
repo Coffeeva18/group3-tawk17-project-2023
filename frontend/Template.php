@@ -22,8 +22,8 @@ class Template
         </head>
 
         <body>
-            <nav class="nav-background">
-                <a href="<?= $home_path ?>">Start</a>
+            <nav class="nav-bg">
+                <a href="<?= $home_path ?>/main">Start</a>
                 <a href="<?= $home_path ?>/posts">Posts</a>
 
                 <?php if ($user) : ?>

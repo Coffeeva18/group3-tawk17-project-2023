@@ -37,6 +37,11 @@ class AuthController extends ControllerBase
             $this->showProfilePage();
         }
 
+        // GET: /home/auth/main
+        if ($this->path_count == 3 && $this->path_parts[2] == "main") {
+            $this->showMainPage();
+        }
+
         // Show "404 not found" if the path is invalid
         else {
             $this->notFound();
@@ -61,6 +66,12 @@ class AuthController extends ControllerBase
     {
         // Shows the view file auth/register.php
         $this->viewPage("auth/profile");
+    }
+
+    private function showMainPage()
+    {
+        // Shows the view file auth/register.php
+        $this->viewPage("auth/main");
     }
 
 
