@@ -10,6 +10,8 @@ var_dump($this->model);
 
 ?>
 
+
+
 //ADD INTERFACE TO SEE WEATHER OF THE CITY
 
 <?php Template::footer(); ?>

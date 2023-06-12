@@ -72,6 +72,9 @@ class PostsDatabase extends Database
         $follower = new FollowersDatabase();
 
         $following = $follower->getAllFollowingById($user_id);
+        If (count($following) == 0) {
+            return [];
+       }
         $following_ids = array_column($following, 'following_id');
         $sqlFormat = '(' . implode(', ', $following_ids) . ')';
 
