@@ -9,7 +9,7 @@ Template::header("Register user", $this->model["error"]);
 <form action=<?= $this->home ?>/auth/login method="post">
 
   <div class="container">
-    <label for="uname"><b>Email</b></label>
+    <label for="uname"><b>Username</b></label>
     <input type="text" placeholder="Enter Username" name="username" required>
 
     <label for="psw"><b>Password</b></label>

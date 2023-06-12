@@ -27,8 +27,8 @@ Template::header("Register user", $this->model["error"]);
     <p>By creating an account you agree to our <a href="#" style="color:dodgerblue">Terms & Privacy</a>.</p>
 
     <div class="clearfix">
-      <button class="signupbtn"><a href="<?= $this->home ?>/auth/login">Log In</a></button>
       <button type="submit" class="signupbtn" value="submit">Sign Up</button>
+      <button class="signupbtn"><a href="<?= $this->home ?>/auth/login">Log In</a></button>
     </div>
   </div>
 </form>

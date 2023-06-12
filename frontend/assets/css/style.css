@@ -50,13 +50,17 @@ button.signupbtn {
   background-color: #f1f1f1;
   color: #EC7DC4;
   padding: 14px 20px;
-  margin: 8px auto;
+  margin: 8px 8px 8px 0px;
   border: none;
   cursor: pointer;
   width: 40%;
   opacity: 0.9;
   border-radius: 12px;
   border-color: #9e5483;
+}
+
+a {
+  text-decoration: none;
 }
 
 button:hover {
@@ -270,4 +274,16 @@ h1.home-h {
 
 .de-user {
   color: red;
+}
+
+button.logout {
+  color: red;
+  position: absolute;
+  right: 60px;
+  top: 26px;
+  border-color: red;
+  border-style: solid;
+  border-radius: 20px;
+  background-color: #f1f1f1;
+  padding: 4px 8px;
 }
