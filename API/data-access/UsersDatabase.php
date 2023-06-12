@@ -28,7 +28,15 @@ class UsersDatabase extends Database
     // Get one user by using the username
     public function getUserByUsername($username)
     {
-        $result = $this->getOneRowByIdFromTable($this->table_name, "username", $username);
+        $query = "SELECT * FROM users WHERE username=?;";
+
+        $stmt = $this->conn->prepare($query);
+
+        $stmt->bind_param("s", $username);
+
+        $stmt->execute();
+
+        $result = $stmt->get_result();
 
         $user = $result->fetch_object();
 
@@ -38,14 +46,13 @@ class UsersDatabase extends Database
     // Create one by creating a query and using the inherited $this->conn 
     public function insert(UserModel $user)
     {
-        $query = "INSERT INTO users (username, email, password, admin ) VALUES (?, ?, ?, ?)";
+        $query = "INSERT INTO users (username, email, password, role ) VALUES (?, ?, ?, ?)";
 
         $stmt = $this->conn->prepare($query);
 
-        $stmt->bind_param("sssi", $user->username, $user->email, $user->password, $user->admin );
+        $stmt->bind_param("ssss", $user->username, $user->email, $user->password, $user->role);
 
         $success = $stmt->execute();
-        var_dump($success);
 
         return $success;
     }
@@ -67,8 +74,9 @@ class UsersDatabase extends Database
     // Delete one user by using the inherited function deleteOneRowByIdFromTable
     public function deleteById($user_id)
     {
-        $success = $this->deleteOneRowByIdFromTable($this->table_name, $this->id_name, $user_id);
+        $success = $this->deleteOneRowByIdFromTable($this->table_name, "id", $user_id);
 
         return $success;
     }
+    
 }

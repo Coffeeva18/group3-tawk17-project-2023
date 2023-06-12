@@ -12,14 +12,6 @@ Template::header("Profile");
     <h1 class="user-n"><?= $this->user->username ?></h1>
     <div class="pro-f">
         <div class="wrap-f">
-            <h3>Follower</h3>
-            <p><?= count($this->user->followers) ?></p>
-        </div>
-        <div class="wrap-f">
-            <h3>Following</h3>
-            <p><?= count($this->user->following) ?></p>
-        </div>
-        <div class="wrap-f">
             <h3>Total Post</h3>
             <p><?= count($this->model) ?></p>
         </div>

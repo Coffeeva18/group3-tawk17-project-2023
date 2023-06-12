@@ -1,5 +1,7 @@
 <?php
 
+require_once __DIR__ . "/../API/business-logic/FollowersService.php";
+
 function getHomePath()
 {
     // Get the requested URI from the server
@@ -19,4 +21,16 @@ function getHomePath()
 
     // Return the full home path
     return $home_path;
+}
+
+function getUser()
+{
+    if (!isset($_SESSION["user"])) {
+        return false;
+    }
+
+    $user = UsersService::getUserById($_SESSION["user"]->id);
+    $user->following = FollowersService::getFollowingById($_SESSION["user"]->id);
+
+    return $user;
 }

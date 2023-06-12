@@ -8,8 +8,10 @@ if (!defined('MY_APP') && basename($_SERVER['PHP_SELF']) == basename(__FILE__)) 
 // Model class for post-table in database
 
 class PostModel{
+    public $id;
     public $title; 
     public $content; 
     public $likes;
     public $user_id;
+    public $location;
 }

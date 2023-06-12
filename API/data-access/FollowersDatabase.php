@@ -25,7 +25,50 @@ class FollowersDatabase extends Database
         return $follower;
     }
 
+    
+    // Get one follower by using the inherited function getOneRowByIdFromTable
+    public function getAllFollowingById($user_id)
+    {
+        $query = "SELECT following_id FROM followers WHERE follower_id = ?;";
 
+        $stmt = $this->conn->prepare($query);
+
+        $stmt->bind_param("i", $user_id);
+
+        $stmt->execute();
+
+        $result = $stmt->get_result();
+
+        $following = [];
+
+        while ($follow = $result->fetch_object()) {
+            $following[] = $follow;
+        }
+
+        return $following;
+    }
+
+     // Get one follower by using the inherited function getOneRowByIdFromTable
+     public function getAllFollowersById($user_id)
+     {
+         $query = "SELECT follower_id FROM followers WHERE following_id = ?;";
+ 
+         $stmt = $this->conn->prepare($query);
+ 
+         $stmt->bind_param("i", $user_id);
+ 
+         $stmt->execute();
+ 
+         $result = $stmt->get_result();
+ 
+         $followers = [];
+ 
+         while ($follow = $result->fetch_object()) {
+             $followers[] = $follow;
+         }
+ 
+         return $followers;
+     }
 
     // Create one by creating a query and using the inherited $this->conn 
     public function insert(FollowerModel $follower)

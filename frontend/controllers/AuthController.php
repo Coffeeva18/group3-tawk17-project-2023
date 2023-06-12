@@ -5,7 +5,6 @@ if (!defined('MY_APP') && basename($_SERVER['PHP_SELF']) == basename(__FILE__)) 
     die('This file cannot be accessed directly.');
 }
 
-var_dump($_POST);
 
 require_once __DIR__ . "/../ControllerBase.php";
 require_once __DIR__ . "/../../API/business-logic/UsersService.php";
@@ -38,6 +37,16 @@ class AuthController extends ControllerBase
             $this->showProfilePage();
         }
 
+        // GET: /home/auth/main
+        if ($this->path_count == 3 && $this->path_parts[2] == "main") {
+            $this->showMainPage();
+        }
+
+        // GET: /home/auth/comment
+        if ($this->path_count == 3 && $this->path_parts[2] == "comment") {
+            $this->showCommentPage();
+        }
+
         // Show "404 not found" if the path is invalid
         else {
             $this->notFound();
@@ -60,8 +69,31 @@ class AuthController extends ControllerBase
 
     private function showProfilePage()
     {
+        $this->requireAuth();
+
+        if ($this->user->role === "admin") {
+            $posts = PostsService::getAllPosts();
+        } else {
+            $posts = PostsService::getPostsByUser($this->user->id);
+        }
+
+        // $this->model is used for sending data to the view
+        $this->model = $posts;
+
         // Shows the view file auth/register.php
         $this->viewPage("auth/profile");
+    }
+
+    private function showMainPage()
+    {
+        // Shows the view file auth/register.php
+        $this->viewPage("auth/main");
+    }
+
+    private function showCommentPage()
+    {
+        // Shows the view file auth/register.php
+        $this->viewPage("auth/comment");
     }
 
 
@@ -83,10 +115,11 @@ class AuthController extends ControllerBase
             $this->logoutUser();
         }
 
-        // // POST: /home/auth/profile_pic
-        // else if ($this->path_count == 3 && $this->path_parts[2] == "profile_pic") {
-        //     $this->addProfilePicture();
-        // }
+        // POST: /home/auth/1/delete
+        else if ($this->path_count == 4 && $this->path_parts[3] == "delete") {
+            $this->deleteUser();
+        }
+
 
         // Show "404 not found" if the path is invalid
         else {
@@ -121,11 +154,11 @@ class AuthController extends ControllerBase
         $user->email = $this->body["email"];
         $password = $this->body["password"];
         $confirm_password = $this->body["confirm_password"];
-        $user->admin = false;
+        $user->role = "user";
 
         if ($password !== $confirm_password) {
             $this->model["error"] == "Passwords don't match";
-            $this->viewPage("auth/register");
+            $this->viewPage("auth/signup");
         }
 
         $existing_user = UsersService::getUserByUsername($user->username);
@@ -136,7 +169,6 @@ class AuthController extends ControllerBase
         }
         
         $success = UsersService::registerUser($user, $password);
-        var_dump($success);
 
         if ($success) {
             $this->redirect($this->home . "/auth/login");
@@ -154,41 +186,10 @@ class AuthController extends ControllerBase
         $this->redirect($this->home . "/auth/login");
     }
 
+    private function deleteUser()
+    {
+        UsersService::deleteUserById($this->path_parts[2]);
 
-    // private function addProfilePicture()
-    // {
-    //     $this->requireAuth();
-        
-    //     // Check if a file was uploaded
-    //     if (isset($_FILES['profile_pic']) && $_FILES['profile_pic']['error'] === UPLOAD_ERR_OK) {
-
-    //         // Get the file name and extension
-    //         $filename = $_FILES['profile_pic']['name'];
-    //         $extension = pathinfo($filename, PATHINFO_EXTENSION);
-
-    //         // Generate a unique file name
-    //         $unique_filename = uniqid() . '.' . $extension;
-
-    //         // Set the upload directory and file path
-    //         $upload_directory = realpath(__DIR__ . "/../assets/img/profiles/");
-    //         $file_path = "$upload_directory/$unique_filename";
-
-    //         // Move the uploaded file to the upload directory
-    //         $x = move_uploaded_file($_FILES['profile_pic']['tmp_name'], $file_path);
-
-    //         // Get the URL path to the uploaded file
-    //         $url_path = '/assets/img/profiles/' . $unique_filename;
-
-    //         // You can now save the URL path to the database or use it in your application as needed
-    //         $this->user->profile_pic_url = $url_path;
-
-    //         UsersService::updateUser($this->user->user_id, $this->user);
-
-    //         // Redirect to the profile page or display a success message
-    //         $this->redirect($this->home . "/auth/profile");
-            
-    //     } else {
-    //         $this->error();
-    //     }
-    // }
+        $this->redirect($this->home . "/admin/posts");
+    }
 }

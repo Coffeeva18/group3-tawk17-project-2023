@@ -71,11 +71,13 @@ class ControllerBase
     }
 
     protected function setUser(){
-        if(!isset($_SESSION["user"])){
+        if (!isset($_SESSION["user"])) {
             return false;
         }
-
-        $this->user = UsersService::getUserById($_SESSION["user"]->user_id);
+    
+        $this->user = UsersService::getUserById($_SESSION["user"]->id);
+        $this->user->following = FollowersService::getFollowingById($_SESSION["user"]->id);
+        $this->user->followers = FollowersService::getFollowersById($_SESSION["user"]->id);
     }
 
     protected function requireAuth($authorized_roles = []){
@@ -84,7 +86,7 @@ class ControllerBase
             $this->unauthorized();
         }
 
-        if(count($authorized_roles) > 0 && in_array($this->user->user_role, $authorized_roles) === false){
+        if(count($authorized_roles) > 0 && in_array($this->user->role, $authorized_roles) === false){
             $this->forbidden();
         }
     }

@@ -16,44 +16,32 @@ class PostsAPI extends RestAPI
     // Handles the request by calling the postropriate member function
     public function handleRequest()
     {
-
         
-        // If theres two parts in the path and the request method is GET 
-        // it means that the client is requesting "api/Posts" and
-        // we should respond by returning a list of all posts 
+        // GET: /api/posts
         if ($this->method == "GET" && $this->path_count == 2) {
             $this->getAll();
-        } 
+        }
 
-        // If there's three parts in the path and the request method is GET
-        // it means that the client is requesting "api/Posts/{something}".
-        // In our API the last part ({something}) should contain the ID of a 
-        // post and we should respond with the post of that ID
+        // GET: /api/posts/{id}
         else if ($this->path_count == 3 && $this->method == "GET") {
             $this->getById($this->path_parts[2]);
         }
 
-        // If theres two parts in the path and the request method is POST 
-        // it means that the client is requesting "api/Posts" and we
-        // should get ths contents of the body and create a post.
+        // POST: /api/posts
         else if ($this->path_count == 2 && $this->method == "POST") {
             $this->postOne();
         }
 
-        // If theres two parts in the path and the request method is PUT 
-        // it means that the client is requesting "api/Posts/{something}" and we
-        // should get the contents of the body and update the post.
+        // PUT: /api/posts/{id}
         else if ($this->path_count == 3 && $this->method == "PUT") {
             $this->putOne($this->path_parts[2]);
-        } 
+        }
 
-        // If theres two parts in the path and the request method is DELETE 
-        // it means that the client is requesting "api/Posts/{something}" and we
-        // should get the ID from the URL and delete that post.
+        // DELETE: /api/posts/{id}
         else if ($this->path_count == 3 && $this->method == "DELETE") {
             $this->deleteOne($this->path_parts[2]);
-        } 
-        
+        }
+
         // If none of our ifs are true, we should respond with "not found"
         else {
             $this->notFound();
@@ -91,6 +79,7 @@ class PostsAPI extends RestAPI
         $post->content = $this->body["content"];
         $post->likes = $this->body["likes"];
         $post->user_id = $this->body["user_id"];
+        $post->location = $this->body["location"];
 
         $success = PostsService::savePost($post);
 
@@ -112,6 +101,7 @@ class PostsAPI extends RestAPI
         $post->content = $this->body["content"];
         $post->likes = $this->body["likes"];
         $post->user_id = $this->body["user_id"];
+        $post->location = $this->body["location"];
 
         $success = PostsService::updatePostById($id, $post);
 

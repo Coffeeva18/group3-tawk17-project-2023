@@ -10,11 +10,12 @@ require_once __DIR__ . "/functions.php";
 
 // Load controllers
 require_once __DIR__ . "/controllers/AuthController.php";
-// require_once __DIR__ . "/controllers/PurchaseController.php";
-// require_once __DIR__ . "/controllers/HomeController.php";
+require_once __DIR__ . "/controllers/PostController.php";
+require_once __DIR__ . "/controllers/HomeController.php";
 require_once __DIR__ . "/controllers/AssetsController.php";
-// require_once __DIR__ . "/controllers/ArticleController.php";
-// require_once __DIR__ . "/controllers/BibleController.php";
+require_once __DIR__ . "/controllers/CommentController.php";
+require_once __DIR__ . "/controllers/WeatherController.php";
+require_once __DIR__ . "/controllers/AdminController.php";
 
 // Class for routing all our API requests
 
@@ -34,10 +35,11 @@ class FrontendRouter
             // will load the PurchasePages class
             "frontend" => "HomeController",
             "auth" => "AuthController",
-            "purchases" => "PurchaseController",
+            "admin" => "AdminController", 
+            "posts" => "PostController",
             "assets" => "AssetsController",
-            "articles" => "ArticleController",
-            "bible" => "BibleController"
+            "comments" => "CommentController",
+            "weather" => "WeatherController"
         ];
 
         $this->path_parts = $path_parts;

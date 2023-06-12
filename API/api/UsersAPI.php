@@ -16,36 +16,20 @@ class UsersAPI extends RestAPI
     // Handles the request by calling the userropriate member function
     public function handleRequest()
     {
-
-        
-        // If there's three parts in the path and the request method is GET
-        // it means that the client is requesting "api/Users/{something}".
-        // In our API the last part ({something}) should contain the ID of a 
-        // user and we should respond with the user of that ID
-        if ($this->path_count == 3 && $this->method == "GET") {
-            $this->getById($this->path_parts[2]);
+        // GET: /api/auth/me
+        if ($this->method == "GET" && $this->path_count == 3 && $this->path_parts[2] == "me") {
+            $this->getUser();
         }
 
-        // If theres two parts in the path and the request method is POST 
-        // it means that the client is requesting "api/Users" and we
-        // should get ths contents of the body and create a user.
-        else if ($this->path_count == 2 && $this->method == "POST") {
-            $this->postOne();
+        // POST: /api/auth/register
+        if ($this->method == "POST" && $this->path_count == 3 && $this->path_parts[2] == "register") {
+            $this->registerUser();
         }
 
-        // If theres two parts in the path and the request method is PUT 
-        // it means that the client is requesting "api/Users/{something}" and we
-        // should get the contents of the body and update the user.
-        else if ($this->path_count == 3 && $this->method == "PUT") {
-            $this->putOne($this->path_parts[2]);
-        } 
-
-        // If theres two parts in the path and the request method is DELETE 
-        // it means that the client is requesting "api/Users/{something}" and we
-        // should get the ID from the URL and delete that user.
-        else if ($this->path_count == 3 && $this->method == "DELETE") {
-            $this->deleteOne($this->path_parts[2]);
-        } 
+        // POST: /api/auth/login
+        if ($this->method == "POST" && $this->path_count == 3 && $this->path_parts[2] == "login") {
+            $this->login();
+        }
         
         // If none of our ifs are true, we should respond with "not found"
         else {
@@ -54,32 +38,46 @@ class UsersAPI extends RestAPI
     }
 
     // Gets one and sends it to the client as JSON
-    private function getById($id)
+    private function getUser()
     {
-        $user = UsersService::getUserById($id);
+        $this->requireAuth();
 
-        if ($user) {
-            $this->sendJson($user);
-        }
-        else {
-            $this->notFound();
-        }
+        $this->sendJson($this->user);
     }
+
+    private function login()
+    {
+        $username = $this->body["username"];
+        $test_password = $this->body["password"];
+
+        $user = UsersService::loginUser($username, $test_password);
+
+        if($user == false){
+            $this->unauthorized();
+        }
+        
+        $token = UsersService::generateJsonWebToken($user);
+
+        $response = ["access_token" => $token];
+
+        $this->sendJson($response);
+    }
+
 
     // Gets the contents of the body and saves it as a user by 
     // inserting it in the database.
-    private function postOne()
+    private function registerUser()
     {
         $user = new UserModel();
 
         $user->username = $this->body["username"];
         $user->email = $this->body["email"];
         $user->password = $this->body["password"];
-        $user->admin = false;
+        $user->role = "user";
 
         $success = UsersService::registerUser($user, $user->password);
 
-        if($success){
+        if($success) {
             $this->created();
         }
         else{
